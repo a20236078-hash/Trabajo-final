@@ -1,16 +1,16 @@
-# python -m streamlit run final_.py
+# Ejecutaré la app con: python -m streamlit run final_.py
 
-# ================== LIBRERÍAS ==================
+# ================== LIBRERÍAS QUE UTILIZARÉ ==================
 import streamlit as st
 import pandas as pd
 import random
 
-# ================== BASES DE DATOS ==================
-# Cargamos la base de datos de Marvel 
+# ================== BASES DE DATOS QUE VOY A USAR ==================
+# Aquí cargaré la base de datos principal de personajes Marvel
 df = pd.read_excel("marvel_database_final.xlsx")
 
 
-# ================== ESTILOS (COLORES + FUENTES) ==================
+# ================== ESTILOS (COLORES + FUENTES) QUE APLICARÉ ==================
 st.markdown("""
     <style>
         .stApp {
@@ -47,7 +47,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Fuentes y tamaños
+# Aquí configuraré las fuentes y tamaños de letra que quiero usar
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet"> 
 
@@ -90,7 +90,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Estilo del selectbox del sidebar
+# Aquí ajustaré el estilo del selectbox del sidebar
 st.markdown("""
 <style>
     div[data-baseweb="select"] input {
@@ -105,7 +105,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ================== BARRA DE NAVEGACIÓN ==================
+# ================== BARRA DE NAVEGACIÓN QUE VOY A MOSTRAR ==================
 st.sidebar.image("barra_imagen.png", use_container_width=True)
 
 paginas = [
@@ -122,6 +122,7 @@ if pagina_seleccionada == 'Inicio':
 
     st.markdown("<h1 style='text-align: center;'>Tu héroe Marvel</h1>", unsafe_allow_html=True)
 
+    # Aquí organizaré el contenido inicial en dos columnas
     col1, col2 = st.columns(2)
 
     col1.image("fotoinicio.jpg", caption='Héroes', width=300)
@@ -148,6 +149,7 @@ if pagina_seleccionada == 'Inicio':
     st.markdown("---")
     st.subheader("¿Qué vas a encontrar en esta página?")
 
+    # Aquí añadiré una descripción de lo que ofrezco en la app
     st.markdown("""
 💥 **¡Bienvenido al Universo Marvel!** 💥  
 
@@ -163,6 +165,7 @@ Encuentra apariciones de tus héroes en el universo audiovisual de Marvel.
 
     st.subheader("Por último, nuestros creadores")
 
+    # Aquí mostraré a los creadores con sus fotos
     col3, col4 = st.columns(2)
     col3.image("pablo.jpg", caption='Pablo Vera, estudiante de Comunicación audiovisual', width=300)
     col4.image("mateo.jpg", caption='Mateo Angeles, estudiante de Comunicación para el desarrollo', width=300)
@@ -170,7 +173,7 @@ Encuentra apariciones de tus héroes en el universo audiovisual de Marvel.
 
 # ================== PÁGINA: QUIZ ==================
 elif pagina_seleccionada == 'Quiz: ¿Qué superhéroe eres?':
-    
+
     st.markdown("<h1 style='text-align: center;'>Descubre tu héroe de Marvel</h1>", unsafe_allow_html=True)
 
     texto_2 = """
@@ -179,6 +182,7 @@ elif pagina_seleccionada == 'Quiz: ¿Qué superhéroe eres?':
     un líder noble como el Capitán América, un aventurero cósmico como Thor o un héroe espontáneo y divertido como Spider-Man. Este quiz fue creado para ayudarte a descubrir el personaje que más conecta contigo, basado en tus gustos,
     tus decisiones y la forma en que ves el mundo. ¡Responde honestamente y deja que el multiverso haga su magia!"""
 
+    # Aquí añadiré el texto introductorio del quiz
     st.markdown(
         f"<div style='text-align: justify; font-size: 18px;'>{texto_2}</div>",
         unsafe_allow_html=True
@@ -186,7 +190,7 @@ elif pagina_seleccionada == 'Quiz: ¿Qué superhéroe eres?':
 
     st.markdown("<h2 style='text-align: center;'>Responde las preguntas con calma</h2>", unsafe_allow_html=True)
 
-    # Definir las preguntas del quiz
+    # Aquí definiré las preguntas del quiz
     preguntas = [
         {
             "pregunta": "1. Si pudieras tener un superpoder, ¿cuál elegirías?",
@@ -250,10 +254,10 @@ elif pagina_seleccionada == 'Quiz: ¿Qué superhéroe eres?':
         }
     ]
 
-    # Diccionario para guardar las respuestas del usuario
+    # Aquí iré guardando las respuestas del usuario
     respuestas_usuario = {}
 
-    # Mostrar cada pregunta del quiz
+    # Aquí mostraré cada pregunta con sus opciones
     for i, pregunta in enumerate(preguntas):
         st.markdown(f"### {pregunta['pregunta']}")
         opciones_texto = list(pregunta["opciones"].values())
@@ -266,13 +270,11 @@ elif pagina_seleccionada == 'Quiz: ¿Qué superhéroe eres?':
 
         respuestas_usuario[i] = seleccion
 
-    # Botón para calcular resultado
+    # Aquí calcularé el resultado del quiz cuando el usuario presione el botón
     if st.button("Descubrir mi superhéroe"):
 
-        # Reiniciar puntajes
         df["Puntaje"] = 0
 
-        # Recorrer preguntas y sumar puntos según coincidencias
         for i, pregunta in enumerate(preguntas):
             columna = pregunta["columna"]
             valor_elegido = respuestas_usuario[i]
@@ -307,10 +309,9 @@ elif pagina_seleccionada == 'Personajes Marvel':
 
     st.markdown("<h1 style='text-align: center;'>Más información de tu personaje</h1>", unsafe_allow_html=True)
 
-    # Cargar el Excel fusionado (Personaje + Películas + Lore + Lat/Long)
+    # Aquí cargaré la base fusionada con lore, pelis y coordenadas
     info_df = pd.read_excel("marvel_database_2.xlsx")
 
-    # Lista de personajes (los 50 que fusionamos)
     personajes_disponibles = sorted(info_df["Character"].unique())
 
     st.markdown("### Elige tu personaje favorito")
@@ -319,24 +320,21 @@ elif pagina_seleccionada == 'Personajes Marvel':
         personajes_disponibles
     )
 
-    # Filtrar la fila del personaje elegido
+    # Aquí filtraré la fila del personaje elegido
     fila = info_df[info_df["Character"] == personaje_elegido].iloc[0]
 
-    # Layout: columna izquierda (imagen + mapa), derecha (texto)
+    # Aquí organizaré la vista en dos columnas
     col1, col2 = st.columns([1, 2])
 
     # ---------- COLUMNA 1: IMAGEN + MAPA ----------
     with col1:
-        # Buscar la imagen correspondiente en df (marvel_database_final.xlsx)
         img_path = None
 
         if "Imagen" in df.columns:
             fila_img = None
 
-            # Si df también tiene columna "Character", intentamos matchear directo
             if "Character" in df.columns and personaje_elegido in df["Character"].values:
                 fila_img = df[df["Character"] == personaje_elegido].iloc[0]
-            # Si solo tiene "Nombre héroe/villano", hacemos un contains
             elif "Nombre héroe/villano" in df.columns:
                 mask_img = df["Nombre héroe/villano"].astype(str).str.contains(
                     personaje_elegido, case=False, na=False
@@ -350,8 +348,6 @@ elif pagina_seleccionada == 'Personajes Marvel':
 
         if img_path:
             st.image(img_path, caption=personaje_elegido, use_container_width=True)
-        else:
-            st.write("No se encontró imagen para este personaje.")
 
         st.markdown("#### Ubicación en el mapa (origen / referencia)")
         map_df = pd.DataFrame({
@@ -381,6 +377,7 @@ elif pagina_seleccionada == '¡Que la suerte decida!':
 
     st.title("¡Personaje Marvel Aleatorio!")
 
+    # Aquí pondré una breve explicación de esta sección
     st.markdown("""
     🔹 ¡Que el multiverso te sorprenda!  
     Aquí no hay preguntas ni tests, solo caos y pura aleatoriedad.  
@@ -409,5 +406,3 @@ elif pagina_seleccionada == '¡Que la suerte decida!':
             nombre_archivo = str(personaje["Imagen"]).strip()
             img_path = f"foto/{nombre_archivo}"
             st.image(img_path, caption=nombre_visible, use_container_width=True)
-        else:
-            st.write("No se encontró imagen asociada a este personaje.")
